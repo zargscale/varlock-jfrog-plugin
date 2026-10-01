@@ -1,0 +1,44 @@
+{
+  "name": "@zargscale/varlock-jfrog-plugin",
+  "version": "0.1.0",
+  "description": "Resolve JFrog access tokens through browser login in Varlock",
+  "type": "module",
+  "exports": {
+    "./plugin": "./plugin.cjs"
+  },
+  "files": [
+    "plugin.cjs",
+    "README.md",
+    "examples/"
+  ],
+  "engines": {
+    "node": ">=22.3.0"
+  },
+  "peerDependencies": {
+    "varlock": "^1.21.1"
+  },
+  "devDependencies": {
+    "varlock": "1.21.1"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "varlock",
+    "varlock-plugin",
+    "jfrog",
+    "artifactory"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zargscale/varlock-jfrog-plugin.git"
+  },
+  "homepage": "https://github.com/zargscale/varlock-jfrog-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/zargscale/varlock-jfrog-plugin/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
