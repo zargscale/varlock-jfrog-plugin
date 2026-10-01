@@ -142,17 +142,32 @@ command receives a fixed token and must restart after it expires.
 
 ## Development and references
 
-Pushes and pull requests run the tests in GitHub Actions. To publish the version
-in `package.json`, run **Test and publish** manually from the default branch:
+Pushes and pull requests run the tests in GitHub Actions. To stage the version
+in `package.json` for review, run **Test and stage** manually from the default branch:
 
 ```sh
-gh workflow run publish.yml --repo zargscale/varlock-jfrog-plugin
+gh workflow run stage.yml --repo zargscale/varlock-jfrog-plugin
 ```
 
-Publishing runs only after tests pass, uses the organization's `NPM_TOKEN` Actions
-secret, and includes npm provenance. The secret must allow publishing public
-packages in the `@zargscale` npm scope. Increment the version in both
-`package.json` and `package-lock.json` before each subsequent publish.
+Staging runs only after tests pass, uses the organization's `NPM_TOKEN` Actions
+secret, and includes npm provenance. Keep 2FA bypass disabled. The token needs
+write access to the `@zargscale` package scope; stage-only access is sufficient.
+The workflow pins npm 11.21.0 to support `npm stage publish`.
+
+A maintainer reviews the staged package and approves it interactively with 2FA
+in npm's **Staged Packages** tab, or with these commands (Node 22.14+ and npm 11.15+):
+
+```sh
+npm stage list @zargscale/varlock-jfrog-plugin
+npm stage view <stage-id>
+npm stage approve <stage-id>
+```
+
+The workflow only stages; approval is a separate human action. A staged version
+is not installable until approved. For a new package, npm creates a public
+`0.0.0-stage` placeholder. See [npm's staged publishing guide](https://docs.npmjs.com/staged-publishing/).
+Increment the version in both `package.json` and `package-lock.json` before
+staging a subsequent release; an existing staged version already reserves its number.
 
 `npm test` exercises the actual plugin through Varlock's loader, mocking only
 external effects. It checks token injection and sensitivity, session registration,
